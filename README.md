@@ -1,6 +1,8 @@
 # pytudes
 
-Small programs to practice Kata and Advent of Code!
+Small programs for things like Katas or Advent of Code!
+
+Heavily inspired by (read: a blatant copy of) [Peter Novig's repository](https://github.com/norvig/pytudes).
 
 To get going, install a copy of [jypter notebook](http://jupyter.org/) and run `jupyter notebook`, navigate the notebook you're interested in and you're done.
 
