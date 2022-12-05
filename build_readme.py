@@ -11,7 +11,7 @@ notebooks = [
 def build_links(path: str):
     return [
         f"[n](https://nbviewer.org/github/willcodefortea{path})",
-        f"[s](https://studiolab.sagemaker.aws/import/willcodefortea{path})",
+        f"[s](https://studiolab.sagemaker.aws/import/github/willcodefortea{path})",
     ]
 
 def _gh_link(title: str, path: str):
