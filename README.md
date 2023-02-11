@@ -24,3 +24,10 @@ For each notebook you can:
 | [n](https://nbviewer.org/github/willcodefortea/pytudes/blob/master/ipynb/Advent%20of%20Code%202017.ipynb) [s](https://studiolab.sagemaker.aws/import/github/willcodefortea/pytudes/blob/master/ipynb/Advent%20of%20Code%202017.ipynb) | [Advent of Code (2017)](https://github.com/willcodefortea//pytudes/blob/master/ipynb/Advent%20of%20Code%202017.ipynb) |
 | [n](https://nbviewer.org/github/willcodefortea/pytudes/blob/master/ipynb/Advent%20of%20Code%202016.ipynb) [s](https://studiolab.sagemaker.aws/import/github/willcodefortea/pytudes/blob/master/ipynb/Advent%20of%20Code%202016.ipynb) | [Advent of Code (2016)](https://github.com/willcodefortea//pytudes/blob/master/ipynb/Advent%20of%20Code%202016.ipynb) |
 
+
+## Katas
+
+| Title |
+| --- |
+[Mars Rover](https://github.com/willcodefortea//katas/mars-rover)
+
