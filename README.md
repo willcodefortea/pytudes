@@ -29,5 +29,5 @@ For each notebook you can:
 
 | Title |
 | --- |
-[Mars Rover](https://github.com/willcodefortea//katas/mars-rover)
+[Mars Rover](https://github.com/willcodefortea/pytudes/tree/master/katas/mars-rover)
 

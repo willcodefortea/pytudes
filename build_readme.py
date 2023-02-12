@@ -29,7 +29,7 @@ notebooks = [
     ),
 ]
 
-katas = [("Mars Rover", "/katas/mars-rover")]
+katas = [("Mars Rover", "pytudes/tree/master/katas/mars-rover")]
 
 
 def build_links(path: str):
