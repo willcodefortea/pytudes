@@ -16,6 +16,7 @@ For each notebook you can:
 
 | Run | Title |
 | --- | --- |
+| [n](https://nbviewer.org/github/willcodefortea/pytudes/blob/master/ipynb/Advent%20of%20Code%202023.ipynb) [s](https://studiolab.sagemaker.aws/import/github/willcodefortea/pytudes/blob/master/ipynb/Advent%20of%20Code%202023.ipynb) | [Advent of Code (2023)](https://github.com/willcodefortea//pytudes/blob/master/ipynb/Advent%20of%20Code%202023.ipynb) |
 | [n](https://nbviewer.org/github/willcodefortea/pytudes/blob/master/ipynb/Advent%20of%20Code%202022.ipynb) [s](https://studiolab.sagemaker.aws/import/github/willcodefortea/pytudes/blob/master/ipynb/Advent%20of%20Code%202022.ipynb) | [Advent of Code (2022)](https://github.com/willcodefortea//pytudes/blob/master/ipynb/Advent%20of%20Code%202022.ipynb) |
 | [n](https://nbviewer.org/github/willcodefortea/pytudes/blob/master/ipynb/Advent%20of%20Code%202021.ipynb) [s](https://studiolab.sagemaker.aws/import/github/willcodefortea/pytudes/blob/master/ipynb/Advent%20of%20Code%202021.ipynb) | [Advent of Code (2021)](https://github.com/willcodefortea//pytudes/blob/master/ipynb/Advent%20of%20Code%202021.ipynb) |
 | [n](https://nbviewer.org/github/willcodefortea/pytudes/blob/master/ipynb/Advent%20of%20Code%202020.ipynb) [s](https://studiolab.sagemaker.aws/import/github/willcodefortea/pytudes/blob/master/ipynb/Advent%20of%20Code%202020.ipynb) | [Advent of Code (2020)](https://github.com/willcodefortea//pytudes/blob/master/ipynb/Advent%20of%20Code%202020.ipynb) |

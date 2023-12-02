@@ -1,5 +1,9 @@
 notebooks = [
     (
+        "Advent of Code (2023)",
+        "/pytudes/blob/master/ipynb/Advent%20of%20Code%202023.ipynb",
+    ),
+    (
         "Advent of Code (2022)",
         "/pytudes/blob/master/ipynb/Advent%20of%20Code%202022.ipynb",
     ),
