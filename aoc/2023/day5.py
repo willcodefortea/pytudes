@@ -1,5 +1,5 @@
 import re
-from typing import Callable, NamedTuple
+from typing import Callable
 
 test_data = """seeds: 79 14 55 13
 
@@ -125,7 +125,6 @@ def part_2(lines: list[str]):
                     # ...and explore the remaining bit of the range
                     ranges.append((src, range_hi))
                     break
-
             else:
                 # we exited without breaking, there was never an overlap with
                 # a mapping, so just pass through
