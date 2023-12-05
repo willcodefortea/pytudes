@@ -84,4 +84,4 @@ def part_2_dynamic(lines: list[str], winning_length: int):
 
 
 assert part_2_dynamic(test_input.split("\n"), 5) == 30
-print(part_2(data.split("\n"), 10))
+print(part_2_dynamic(data.split("\n"), 10))
