@@ -134,5 +134,4 @@ assert part_1(test_data) == 6440
 print("Part 1:", part_1(data))
 
 assert part_2(test_data) == 5905
-res = part_2(data)
-print("Part 2:", res)
+print("Part 2:", part_2(data))
