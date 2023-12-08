@@ -54,7 +54,7 @@ def part2(lines: list[str]) -> int:
     cycles: list[int] = []
     for node in starting_locations:
         # store the instruction index and current node value
-        loc_seen = set()
+        seen = set()
         num_steps = 0
         first_visit: dict[str, int] = {}
 
@@ -64,8 +64,7 @@ def part2(lines: list[str]) -> int:
             if node not in first_visit:
                 first_visit[node] = num_steps
 
-            cycle_started = loc in loc_seen
-            if cycle_started:
+            if loc in seen:
                 # we'll revisit every other node within this cycle now, but how
                 # long is the cycle?
                 # all cycles seem to return to the starting node from the
@@ -75,7 +74,7 @@ def part2(lines: list[str]) -> int:
                 break
 
             num_steps += 1
-            loc_seen.add(loc)
+            seen.add(loc)
 
     # find the lowest common multiple between all cycle lengths, this will be
     # the first time they all land on the same node.
