@@ -2,7 +2,7 @@ import sys
 import time
 from typing import TextIO
 
-from solution import Solutions
+from solutions.solution import Solutions
 
 
 def format_duration(duration: float) -> str:
@@ -96,8 +96,9 @@ def write_table_to_buffer(out: TextIO):
 
     for day in range(3, 25):
         try:
-            mod = __import__(f"day{day}")
-            solutions.append(mod.SOLUTION)
+            mod = __import__("solutions", fromlist=[f"day{day}"])
+            daily_mod = getattr(mod, f"day{day}")
+            solutions.append(daily_mod.SOLUTION)
         except (ImportError, AttributeError):
             break
 

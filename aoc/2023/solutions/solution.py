@@ -28,11 +28,7 @@ class Solutions(Generic[R]):
         self._part_2_solution = None
 
     def _read_input(self):
-        path = os.path.join(
-            os.path.dirname(__file__),
-            "solutions",
-            f"day{self.day}.txt",
-        )
+        path = os.path.join(os.path.dirname(__file__), f"day{self.day}.txt")
         with open(path, "r", encoding="utf-8") as fin:
             return fin.read().split("\n")
 
