@@ -19,7 +19,7 @@ def parse_input(lines: list[str]):
     return out
 
 
-def extrapolate_value(vals: tuple[int]) -> int:
+def extrapolate_value(vals: list[int]) -> int:
     if not any(vals):
         return 0
 
