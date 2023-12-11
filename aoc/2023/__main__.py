@@ -42,10 +42,10 @@ def draw_table(solutions: list[Solutions], out: TextIO):
     )
     out.write(
         "║{}║{}║{}║{}║\n".format(
-            " Day ".ljust(max_name_length + 2),
-            " Part 1 ".ljust(part_1_header_length + 2),
-            " Part 2 ".ljust(part_2_header_length + 2),
-            " Time ".ljust(max_time_length + 2),
+            " Day ".center(max_name_length + 2),
+            " Part 1 ".center(part_1_header_length + 2),
+            " Part 2 ".center(part_2_header_length + 2),
+            " Time ".center(max_time_length + 2),
         )
     )
     out.write(

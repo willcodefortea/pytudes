@@ -1,4 +1,5 @@
 import re
+from math import ceil, floor
 
 from solution import Solutions
 
@@ -19,11 +20,20 @@ def part_1(races):
 
 
 def num_winning_options(time: int, distance: int) -> int:
-    res = 0
-    for t in range(time):
-        if t * (time - t) > distance:
-            res += 1
-    return res
+    # winning condition:
+    # button_press * (button_press - time) > distance
+    # can be rewritten as:
+    # button_press ^ 2 - button_press * time - distance > 0
+    # solving to find the limits gives:
+    # button_press = time / 2 +- sqrt(time ^ 2 - 4 * distance) / 2
+    lower = time / 2 - (time**2 - 4 * distance) ** 0.5 / 2
+    upper = time / 2 + (time**2 - 4 * distance) ** 0.5 / 2
+
+    # need integer values, so round remove the decimal part
+    lower = ceil(lower)
+    upper = floor(upper)
+    # then add 1 to include zero \o/
+    return upper - lower + 1
 
 
 def part_2(races):
