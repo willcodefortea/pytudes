@@ -1,6 +1,8 @@
 from collections import Counter
 from functools import cmp_to_key, partial
 
+from solution import Solutions
+
 test_data = """32T3K 765
 T55J5 684
 KK677 28
@@ -97,9 +99,7 @@ def compare_hand_bid(hand1: Hand, hand2: Hand, convert_jokers: bool = False):
     return 1 if compare_hands(hand1[0], hand2[0], convert_jokers) else -1
 
 
-def part_1(lines: list[str]):
-    hands = parse_input(lines)
-
+def part_1(hands):
     sorted_hands = sorted(hands, key=cmp_to_key(compare_hand_bid))
     res = 0
     for indx, (c, bid) in enumerate(sorted_hands, start=1):
@@ -107,9 +107,7 @@ def part_1(lines: list[str]):
     return res
 
 
-def part_2(lines: list[str]):
-    hands = parse_input(lines)
-
+def part_2(hands):
     cmp = partial(compare_hand_bid, convert_jokers=True)
     sorted_hands = sorted(hands, key=cmp_to_key(cmp))
     res = 0
@@ -118,20 +116,32 @@ def part_2(lines: list[str]):
     return res
 
 
-assert score_hand("AAAAA") == FIVE_OF_A_KIND
-assert score_hand("AA8AA") == FOUR_OF_A_KIND
-assert score_hand("23332") == FULL_HOUSE
-assert score_hand("TTT98") == THREE_OF_A_KIND
-assert score_hand("23432") == TWO_PAIR
-assert score_hand("A23A4") == ONE_PAIR
-assert compare_hands("AAAAA", "AA8AA")
-assert not compare_hands("AA8AA", "AAAAA")
-assert compare_hands("77888", "77788")
+def test_everything():
+    assert score_hand("AAAAA") == FIVE_OF_A_KIND
+    assert score_hand("AA8AA") == FOUR_OF_A_KIND
+    assert score_hand("23332") == FULL_HOUSE
+    assert score_hand("TTT98") == THREE_OF_A_KIND
+    assert score_hand("23432") == TWO_PAIR
+    assert score_hand("A23A4") == ONE_PAIR
+    assert compare_hands("AAAAA", "AA8AA")
+    assert not compare_hands("AA8AA", "AAAAA")
+    assert compare_hands("77888", "77788")
+
+    test_hands = parse_input(test_data)
+
+    assert part_1(test_hands) == 6440
+    assert part_2(test_hands) == 5905
 
 
-data = open("day7.txt").read().split("\n")
-assert part_1(test_data) == 6440
-print("Part 1:", part_1(data))
+SOLUTION = Solutions(
+    day=7,
+    part_1=part_1,
+    part_2=part_2,
+    parse_data=parse_input,
+    part_1_answer=251927063,
+    part_2_answer=255632664,
+)
 
-assert part_2(test_data) == 5905
-print("Part 2:", part_2(data))
+if __name__ == "__main__":
+    print(SOLUTION.part_1(), SOLUTION.part_1_solved)
+    print(SOLUTION.part_2(), SOLUTION.part_2_solved)

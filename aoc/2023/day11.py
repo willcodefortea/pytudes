@@ -1,3 +1,7 @@
+from functools import partial
+
+from solution import Solutions
+
 test_input = """...#......
 .......#..
 #.........
@@ -83,14 +87,12 @@ def manhattan_distance(p1: tuple[int, int], p2: tuple[int, int]):
     return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
 
 
-def part1(lines: list[str]):
-    galaxies = parse_input(lines)
+def part_1(galaxies):
     galaxies = grow_space(galaxies)
     return sum(manhattan_distance(*pair) for pair in pairwise(galaxies))
 
 
-def part2(lines: list[str], growth_factor: int):
-    galaxies = parse_input(lines)
+def part_2(galaxies, growth_factor: int):
     galaxies = grow_space(galaxies, growth_factor)
     return sum(manhattan_distance(*pair) for pair in pairwise(galaxies))
 
@@ -100,13 +102,22 @@ class Tests:
         assert parse_input(test_input_grown) == grow_space(parse_input(test_input))
 
     def test_part_1(self):
-        assert part1(test_input) == 374
+        assert part_1(parse_input(test_input)) == 374
 
     def test_part_2(self):
-        assert part2(test_input, 10) == 1030
-        assert part2(test_input, 100) == 8410
+        assert part_2(parse_input(test_input), 10) == 1030
+        assert part_2(parse_input(test_input), 100) == 8410
 
 
-data = open("day11.txt").read().split("\n")
-print("Part 1:", part1(data))
-print("Part 2:", part2(data, 1000000))
+SOLUTION = Solutions(
+    day=11,
+    part_1=part_1,
+    part_2=partial(part_2, growth_factor=1_000_000),
+    parse_data=parse_input,
+    part_1_answer=9599070,
+    part_2_answer=842645913794,
+)
+
+if __name__ == "__main__":
+    print(SOLUTION.part_1(), SOLUTION.part_1_solved)
+    print(SOLUTION.part_2(), SOLUTION.part_2_solved)

@@ -2,6 +2,8 @@ import math
 import re
 from itertools import cycle
 
+from solution import Solutions
+
 test_input = """LLR
 
 AAA = (BBB, BBB)
@@ -37,8 +39,8 @@ def follow_instructions(instructions: str, nodes: Nodes, start: str):
         yield instruction_idx, node
 
 
-def part1(lines: list[str]):
-    instructions, nodes = parse_input(lines)
+def part_1(data):
+    instructions, nodes = data
     num_steps = 0
     for _, node in follow_instructions(instructions, nodes, "AAA"):
         num_steps += 1
@@ -47,8 +49,8 @@ def part1(lines: list[str]):
     return num_steps
 
 
-def part2(lines: list[str]) -> int:
-    instructions, nodes = parse_input(lines)
+def part_2(data) -> int:
+    instructions, nodes = data
 
     starting_locations = [n for n in nodes if n.endswith("A")]
     cycles: list[int] = []
@@ -83,25 +85,35 @@ def part2(lines: list[str]) -> int:
     return res
 
 
-parse_input(test_input)
-assert part1(test_input) == 6
+def test_everything():
+    assert part1(test_input) == 6
 
-data = open("day8.txt").read().split("\n")
-print("Part 1:", part1(data))
+    test_input = """LR
 
-test_input = """LR
+    11A = (11B, XXX)
+    11B = (XXX, 11Z)
+    11Z = (11B, XXX)
+    22A = (22B, XXX)
+    22B = (22C, 22C)
+    22C = (22Z, 22Z)
+    22Z = (22B, 22B)
+    XXX = (XXX, XXX)
+    """.split(
+        "\n"
+    )
 
-11A = (11B, XXX)
-11B = (XXX, 11Z)
-11Z = (11B, XXX)
-22A = (22B, XXX)
-22B = (22C, 22C)
-22C = (22Z, 22Z)
-22Z = (22B, 22B)
-XXX = (XXX, XXX)
-""".split(
-    "\n"
+    assert part2(test_input) == 6
+
+
+SOLUTION = Solutions(
+    day=8,
+    part_1=part_1,
+    part_2=part_2,
+    parse_data=parse_input,
+    part_1_answer=12737,
+    part_2_answer=9064949303801,
 )
 
-assert part2(test_input) == 6
-print("Part 2:", part2(data))
+if __name__ == "__main__":
+    print(SOLUTION.part_1(), SOLUTION.part_1_solved)
+    print(SOLUTION.part_2(), SOLUTION.part_2_solved)

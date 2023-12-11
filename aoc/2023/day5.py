@@ -1,6 +1,8 @@
 import re
 from typing import Callable
 
+from solution import Solutions
+
 test_data = """seeds: 79 14 55 13
 
 seed-to-soil map:
@@ -62,9 +64,8 @@ def parse_data(lines: list[str]):
     return seeds, maps
 
 
-def part_1(lines: list[str]):
-    seeds, maps = parse_data(lines)
-
+def part_1(data):
+    seeds, maps = data
     final_locations = []
 
     for seed in seeds:
@@ -84,9 +85,8 @@ def chunks(lst, n):
         yield lst[i : i + n]
 
 
-def part_2(lines: list[str]):
-    seeds, maps = parse_data(lines)
-
+def part_2(data):
+    seeds, maps = data
     all_lowest = []
 
     ranges = []
@@ -137,9 +137,15 @@ def part_2(lines: list[str]):
     return all_lowest[-1]
 
 
-data = open("day5.txt").read().split("\n")
+SOLUTION = Solutions(
+    day=5,
+    part_1=part_1,
+    part_2=part_2,
+    parse_data=parse_data,
+    part_1_answer=579439039,
+    part_2_answer=7873084,
+)
 
-assert part_1(test_data) == 35
-assert part_1(data) == 579439039
-assert part_2(test_data) == 46
-assert part_2(data) == 7873084
+if __name__ == "__main__":
+    print(SOLUTION.part_1(), SOLUTION.part_1_solved)
+    print(SOLUTION.part_2(), SOLUTION.part_2_solved)

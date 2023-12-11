@@ -1,5 +1,4 @@
-import enum
-from sys import get_coroutine_origin_tracking_depth
+from solution import Solutions
 
 test_data_loop = """.....
 .S-7.
@@ -65,11 +64,11 @@ def parse_input(lines: list[str]):
             graph[start] = nodes
             start_char = char
 
-    return start, start_char, graph
+    return start, start_char, graph, lines
 
 
-def part1(lines: list[str]):
-    start, _, graph = parse_input(lines)
+def part_1(data):
+    start, _, graph, _ = data
 
     current_node = start
     nodes_visited = set()
@@ -97,8 +96,8 @@ def find_main_loop(start: Point, graph: dict[Point, list[Point]]):
     return main_loop
 
 
-def part2(lines: list[str]):
-    start, start_char, graph = parse_input(lines)
+def part_2(data):
+    start, start_char, graph, lines = data
     # we're doing a "point in a polygon" solution.
     # drawing left to right across the grid we can tell if we're inside if we
     # cross a line that is travelling north.
@@ -156,7 +155,7 @@ class Tests:
 ...........""".split(
             "\n"
         )
-        assert part2(loop) == 4
+        assert part2(parse_input(loop)) == 4
 
     def test_loop_enclosure_no_gap(self):
         loop = """..........
@@ -170,7 +169,7 @@ class Tests:
 ..........""".split(
             "\n"
         )
-        assert part2(loop) == 4
+        assert part2(parse_input(loop)) == 4
 
     def test_larger(self):
         loop = """.F----7F7F7F7F-7....
@@ -186,7 +185,7 @@ L--J.L7...LJS7F-7L7.
             "\n"
         )
 
-        assert part2(loop) == 8
+        assert part2(parse_input(loop)) == 8
 
     def test_larger_with_junk(self):
         loop = """FF7FSF7F7F7F7F7F---7
@@ -201,9 +200,18 @@ L.L7LFJ|||||FJL7||LJ
 L7JLJL-JLJLJL--JLJ.L""".split(
             "\n"
         )
-        assert part2(loop) == 10
+        assert part2(parse_input(loop)) == 10
 
 
-data = open("day10.txt").read().split("\n")
-print("Part 1:", part1(data))
-print("Part 2:", part2(data))
+SOLUTION = Solutions(
+    day=10,
+    part_1=part_1,
+    part_2=part_2,
+    parse_data=parse_input,
+    part_1_answer=6697,
+    part_2_answer=423,
+)
+
+if __name__ == "__main__":
+    print(SOLUTION.part_1(), SOLUTION.part_1_solved)
+    print(SOLUTION.part_2(), SOLUTION.part_2_solved)

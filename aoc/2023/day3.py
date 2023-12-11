@@ -1,18 +1,6 @@
 from collections import defaultdict
-from re import L
 
-test_data = """467..114..
-...*......
-..35..633.
-......#...
-617*......
-.....+.58.
-..592.....
-......755.
-...$.*....
-.664.598.."""
-
-data = open("day3.txt").read()
+from solution import Solutions
 
 
 def get_neighbours(x: int, y: int, grid: list[str]):
@@ -34,8 +22,11 @@ def get_neighbours(x: int, y: int, grid: list[str]):
     return neighbours
 
 
+Graph = tuple[int, set[str]]
+
+
 def build_engine_graph(engine: list[str]):
-    graphs = []
+    graphs: list[Graph] = []
 
     numbers = "0123456789"
 
@@ -68,25 +59,15 @@ def build_engine_graph(engine: list[str]):
     return graphs
 
 
-def extract_engine_parts(engine: list[str]) -> list[int]:
-    graphs = build_engine_graph(engine)
+def extract_engine_parts(graphs: list[Graph]) -> list[int]:
     return [part for part, symbols in graphs if len(symbols) > 0]
 
 
-print(extract_engine_parts(test_data.split("\n")))
-test_part_1 = sum(extract_engine_parts(test_data.split("\n")))
-print(test_part_1)
-assert test_part_1 == 4361
+def part_1(graphs: list[Graph]):
+    return sum(extract_engine_parts(graphs))
 
 
-part_1 = sum(extract_engine_parts(data.split("\n")))
-print(f"Part 1: {part_1}")
-assert part_1 > 519861, part_1
-
-
-def gear_ratio(engine: list[str]):
-    graphs = build_engine_graph(engine)
-
+def part_2(graphs: list[Graph]):
     gear_graph = defaultdict(list)
 
     for part, symbols in graphs:
@@ -105,4 +86,15 @@ def gear_ratio(engine: list[str]):
     return total
 
 
-print(gear_ratio(data.split("\n")))
+SOLUTION = Solutions(
+    day=3,
+    part_1=part_1,
+    part_2=part_2,
+    parse_data=build_engine_graph,
+    part_1_answer=520019,
+    part_2_answer=75519888,
+)
+
+if __name__ == "__main__":
+    print(SOLUTION.part_1(), SOLUTION.part_1_solved)
+    print(SOLUTION.part_2(), SOLUTION.part_2_solved)

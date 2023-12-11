@@ -1,3 +1,5 @@
+from solution import Solutions
+
 test_input = """0 3 6 9 12 15
 1 3 6 10 15 21
 10 13 16 21 30 45""".split(
@@ -33,13 +35,11 @@ def extrapolate_value(vals: list[int]) -> int:
     return vals[-1] + extrapolate_value(distances)
 
 
-def part1(lines: list[str]):
-    vals = parse_input(lines)
+def part_1(vals):
     return sum(extrapolate_value(v) for v in vals)
 
 
-def part2(lines: list[str]):
-    vals = parse_input(lines)
+def part_2(vals):
     return sum(extrapolate_value(v[::-1]) for v in vals)
 
 
@@ -57,15 +57,24 @@ class Tests:
         assert extrapolate_value((0, 3, 6, 9, 12, 15)) == 18
 
     def test_part1(self):
-        assert part1(test_input) == 114
+        assert part_1(parse_input(test_input)) == 114
 
     def test_extrapoloate_backwards(self):
         assert extrapolate_value([10, 13, 16, 21, 30, 45][::-1]) == 5
 
     def test_part2(self):
-        assert part2(test_input) == 2
+        assert part_2(parse_input(test_input)) == 2
 
 
-data = open("day9.txt").read().split("\n")
-print("Part 1:", part1(data))
-print("Part 2:", part2(data))
+SOLUTION = Solutions(
+    day=9,
+    part_1=part_1,
+    part_2=part_2,
+    parse_data=parse_input,
+    part_1_answer=1681758908,
+    part_2_answer=803,
+)
+
+if __name__ == "__main__":
+    print(SOLUTION.part_1(), SOLUTION.part_1_solved)
+    print(SOLUTION.part_2(), SOLUTION.part_2_solved)
