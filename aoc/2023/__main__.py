@@ -94,7 +94,7 @@ def draw_table(solutions: list[Solutions], out: TextIO):
 def write_table_to_buffer(out: TextIO):
     solutions = []
 
-    for day in range(3, 25):
+    for day in range(1, 26):
         try:
             mod = __import__("solutions", fromlist=[f"day{day}"])
             daily_mod = getattr(mod, f"day{day}")
