@@ -18,10 +18,10 @@ def format_duration(duration: float) -> str:
 
 def draw_table(solutions: list[Solutions], out: TextIO):
     max_name_length = 6
-    max_part1_lenth = 10
-    max_part2_lenth = 13
-    part_1_header_length = max_part1_lenth + 5
-    part_2_header_length = max_part2_lenth + 5
+    max_part1_length = 10
+    max_part2_length = 13
+    part_1_header_length = max_part1_length + 5
+    part_2_header_length = max_part2_length + 5
     max_time_length = 8
     max_length = (
         max_name_length
@@ -51,9 +51,9 @@ def draw_table(solutions: list[Solutions], out: TextIO):
     out.write(
         "╠{}╬{}╦{}╬{}╦{}╬{}╣\n".format(
             "═" * (max_name_length + 2),
-            "═" * (max_part1_lenth + 2),
+            "═" * (max_part1_length + 2),
             "═" * 4,
-            "═" * (max_part2_lenth + 2),
+            "═" * (max_part2_length + 2),
             "═" * 4,
             "═" * (max_time_length + 2),
         )
@@ -70,9 +70,9 @@ def draw_table(solutions: list[Solutions], out: TextIO):
         out.write(
             "║ {} ║ {} ║ {} ║ {} ║ {} ║ {} ║\n".format(
                 solution.name.ljust(max_name_length),
-                str(p1).rjust(max_part1_lenth),
+                str(p1).rjust(max_part1_length),
                 p1_symbol,
-                str(p2).rjust(max_part2_lenth),
+                str(p2).rjust(max_part2_length),
                 p2_symbol,
                 str(duration).rjust(max_time_length),
             )
@@ -82,9 +82,9 @@ def draw_table(solutions: list[Solutions], out: TextIO):
     out.write(
         "╚{}╩{}╩{}╩{}╩{}╩{}╝\n".format(
             "═" * (max_name_length + 2),
-            "═" * (max_part1_lenth + 2),
+            "═" * (max_part1_length + 2),
             "═" * 4,
-            "═" * (max_part2_lenth + 2),
+            "═" * (max_part2_length + 2),
             "═" * 4,
             "═" * (max_time_length + 2),
         )
@@ -113,7 +113,9 @@ def main(build_readme: bool = False):
                 " experience is quite a bit nicer.\n\n"
             )
 
+            fout.write("```\n")
             write_table_to_buffer(fout)
+            fout.write("```\n")
     else:
         write_table_to_buffer(sys.stdout)
 
