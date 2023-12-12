@@ -1,6 +1,9 @@
+from functools import cache
+from typing import Sequence
+
 from solution import Solutions
 
-Data = list[tuple[str, list[int]]]
+Data = list[tuple[str, tuple[int, ...]]]
 
 test_data = """???.### 1,1,3
 .??..??...?##. 1,1,3
@@ -12,52 +15,65 @@ test_data = """???.### 1,1,3
 )
 
 
-def parse_input(lines: list[str]) -> Data:
+def parse_input(lines: Sequence[str]) -> Data:
     out = []
     for line in lines:
         if not line:
             continue
         pattern, nums = line.split(" ")
-        nums = [int(n) for n in nums.split(",")]
+        nums = tuple(int(n) for n in nums.split(","))
         out.append((pattern, nums))
 
     return out
 
 
-def is_valid(pattern: str, damaged: list[int]) -> bool:
-    if "?" in pattern:
-        return False
-    damaged_chunk_len = [len(c) for c in pattern.split(".") if c]
-    return damaged_chunk_len == damaged
+@cache
+def eat_the_string(
+    pattern: str,
+    damaged: tuple[int],
+    current_block_length: int = 0,
+) -> int:
+    if not pattern:
+        # no final block, so this is valid
+        if len(damaged) == 0 and current_block_length == 0:
+            return 1
+
+        # is the last block the right length?
+        if len(damaged) == 1 and damaged[0] == current_block_length:
+            return 1
+
+        # nope, not valid
+        return 0
+
+    n = 0
+    maybe_broken = pattern[0] in "#?"
+    if maybe_broken:
+        # is broken or unknown, explore as if it's broken
+        n += eat_the_string(pattern[1:], damaged, current_block_length + 1)
+
+    maybe_fine = pattern[0] in ".?"
+    if maybe_fine:
+        # is not broken or unknown, explore as if not broken
+        if damaged and damaged[0] == current_block_length:
+            # explore as if this damage block is complete
+            n += eat_the_string(pattern[1:], damaged[1:])
+        elif current_block_length == 0:
+            n += eat_the_string(pattern[1:], damaged)
+    return n
 
 
-def num_arrangements(pattern: str, damaged: list[int]) -> int:
-    chars = list(pattern)
-
-    total = 0
-    # DFS brute force, see if it works!
-    for idx, char in enumerate(chars):
-        if char != "?":
-            continue
-
-        for c in ".#":
-            # branch, try different values
-            test_pattern = chars[:]
-            test_pattern[idx] = c
-            total += num_arrangements("".join(test_pattern), damaged)
-        # we've made a change, other branches will explore the remaining patterns
-        break
-
-    total += int(is_valid(pattern, damaged))
-    return total
+def unfold(pattern: str, damaged: tuple[int, ...]) -> tuple[str, tuple[int, ...]]:
+    return "?".join([pattern] * 5), damaged * 5
 
 
 def part_1(data: Data):
-    return sum(num_arrangements(pattern, damaged) for pattern, damaged in data)
+    # we add a valid node at the end of the pattern to make end case easier to find
+    return sum(eat_the_string(pattern, damaged) for pattern, damaged in data)
 
 
 def part_2(data: Data):
-    return None
+    unfolded = [unfold(pattern, damaged) for pattern, damaged in data]
+    return part_1(unfolded)
 
 
 SOLUTION = Solutions(
@@ -66,7 +82,7 @@ SOLUTION = Solutions(
     part_2=part_2,
     parse_data=parse_input,
     part_1_answer=7173,
-    part_2_answer=0,
+    part_2_answer=29826669191291,
 )
 
 
@@ -80,21 +96,17 @@ class Tests:
         "\n"
     )
 
-    def test_is_valid(self):
-        assert is_valid("#.#.###", [1, 1, 3])
-        assert not is_valid("##..###", [1, 1, 1])
-
     def test_simple_arrangements(self):
-        assert num_arrangements("???.###", [1, 1, 3]) == 1
+        assert eat_the_string("???.###", (1, 1, 3)) == 1
 
     def test_part_1(self):
         assert part_1(parse_input(self.DATA)) == 21
 
     def test_unfolding(self):
-        assert unfold(".#", [1]) == (".#?.#?.#?.#?.#", [1, 1, 1, 1, 1])
+        assert unfold(".#", (1,)) == (".#?.#?.#?.#?.#", (1, 1, 1, 1, 1))
 
     def test_part_2_simple(self):
-        assert part_1([(".??..??...?##.", [1, 1, 3])]) == 16384
+        assert part_2([(".??..??...?##.", (1, 1, 3))]) == 16384
 
 
 if __name__ == "__main__":

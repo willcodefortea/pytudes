@@ -19,7 +19,7 @@ def format_duration(duration: float) -> str:
 def draw_table(solutions: list[Solutions], out: TextIO):
     max_name_length = 6
     max_part1_length = 10
-    max_part2_length = 13
+    max_part2_length = 14
     part_1_header_length = max_part1_length + 5
     part_2_header_length = max_part2_length + 5
     max_time_length = 8
