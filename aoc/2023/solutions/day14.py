@@ -1,4 +1,4 @@
-from typing import Callable, Sequence
+from typing import Callable, Iterable, Sequence
 
 from solution import Solutions
 
@@ -18,89 +18,61 @@ def parse_input(lines: Sequence[str]) -> Data:
     return movable, immovable
 
 
-def tilt_north(moveable: set[Point], immovable: set[Point]) -> set[Point]:
+def tilt(
+    immovable: set[Point],
+    rocks: Iterable[Point],
+    new_positions: Callable[[Point], Iterable[Point]],
+):
     new_locations: set[Point] = set()
-    # start by looking at the rocks closest to the top
-    for rock in sorted(moveable, key=lambda p: p[1]):
+    for rock in rocks:
         new_pos_stack = []
-
-        for new_y in range(rock[1], -1, -1):
-            new_loc = (rock[0], new_y)
-
-            if new_loc in immovable or new_loc in new_locations:
+        for new_pos in new_positions(rock):
+            if new_pos in immovable or new_pos in new_locations:
                 # hit a rock, can't go further
                 break
+            new_pos_stack.append(new_pos)
 
-            new_pos_stack.append(new_loc)
-
-        new_pos = new_pos_stack.pop() if new_pos_stack else rock
-        new_locations.add(new_pos)
-
+        # either last place we landed, or we haven't moved at all
+        settled_pos = new_pos_stack.pop() if new_pos_stack else rock
+        new_locations.add(settled_pos)
     return new_locations
+
+
+from itertools import cycle
+
+
+def tilt_north(moveable: set[Point], immovable: set[Point]) -> set[Point]:
+    return tilt(
+        immovable=immovable,
+        rocks=sorted(moveable, key=lambda p: p[1]),
+        new_positions=lambda rock: zip(cycle([rock[0]]), range(rock[1], -1, -1)),
+    )
 
 
 def tilt_south(moveable: set[Point], immovable: set[Point]) -> set[Point]:
     max_y = max(p[1] for p in immovable)
-    new_locations: set[Point] = set()
-    # start by looking at the rocks closest to the top
-    for rock in sorted(moveable, key=lambda p: p[1], reverse=True):
-        new_pos_stack = []
-
-        for new_y in range(rock[1], max_y + 1, 1):
-            new_loc = (rock[0], new_y)
-
-            if new_loc in immovable or new_loc in new_locations:
-                # hit a rock, can't go further
-                break
-
-            new_pos_stack.append(new_loc)
-
-        new_pos = new_pos_stack.pop() if new_pos_stack else rock
-        new_locations.add(new_pos)
-
-    return new_locations
+    return tilt(
+        immovable=immovable,
+        rocks=sorted(moveable, key=lambda p: p[1], reverse=True),
+        new_positions=lambda rock: zip(cycle([rock[0]]), range(rock[1], max_y + 1)),
+    )
 
 
 def tilt_east(moveable: set[Point], immovable: set[Point]) -> set[Point]:
     max_x = max(p[0] for p in immovable)
-    new_locations: set[Point] = set()
-    # start by looking at the rocks closest to the top
-    for rock in sorted(moveable, key=lambda p: p[0], reverse=True):
-        new_pos_stack = []
-
-        for new_x in range(rock[0], max_x + 1, 1):
-            new_loc = (new_x, rock[1])
-
-            if new_loc in immovable or new_loc in new_locations:
-                # hit a rock, can't go further
-                break
-
-            new_pos_stack.append(new_loc)
-
-        new_pos = new_pos_stack.pop() if new_pos_stack else rock
-        new_locations.add(new_pos)
-
-    return new_locations
+    return tilt(
+        immovable=immovable,
+        rocks=sorted(moveable, key=lambda p: p[0], reverse=True),
+        new_positions=lambda rock: zip(range(rock[0], max_x + 1), cycle([rock[1]])),
+    )
 
 
 def tilt_west(moveable: set[Point], immovable: set[Point]) -> set[Point]:
-    new_locations: set[Point] = set()
-    for rock in sorted(moveable, key=lambda p: p[0]):
-        new_pos_stack = []
-
-        for new_x in range(rock[0], -1, -1):
-            new_loc = (new_x, rock[1])
-
-            if new_loc in immovable or new_loc in new_locations:
-                # hit a rock, can't go further
-                break
-
-            new_pos_stack.append(new_loc)
-
-        new_pos = new_pos_stack.pop() if new_pos_stack else rock
-        new_locations.add(new_pos)
-
-    return new_locations
+    return tilt(
+        immovable=immovable,
+        rocks=sorted(moveable, key=lambda p: p[0]),
+        new_positions=lambda rock: zip(range(rock[0], -1, -1), cycle([rock[1]])),
+    )
 
 
 def do_cycle(moveable: set[Point], immovable: set[Point]) -> set[Point]:
@@ -110,8 +82,8 @@ def do_cycle(moveable: set[Point], immovable: set[Point]) -> set[Point]:
 
 
 def print_rocks(moveable: set, immovable: set):
-    max_x = max(p[0] for p in moveable | immovable)
-    max_y = max(p[1] for p in moveable | immovable)
+    max_x = max(p[0] for p in immovable)
+    max_y = max(p[1] for p in immovable)
     for y in range(max_y + 1):
         for x in range(max_x + 1):
             if (x, y) in moveable:
@@ -126,7 +98,7 @@ def print_rocks(moveable: set, immovable: set):
 
 def part_1(data: Data):
     moveable, immovable = data
-    max_y = max(p[1] for p in moveable | immovable)
+    max_y = max(p[1] for p in immovable)
     moveable = tilt_north(moveable, immovable)
 
     total = 0
@@ -151,12 +123,13 @@ def part_2(data: Data):
         moveable = do_cycle(moveable, immovable)
         n += 1
 
-    target = (1_000_000_000 - n - cycle_length) % cycle_length
+    cycle_start = n - cycle_length
+    target = (1_000_000_000 - cycle_start) % cycle_length
     remaining_steps = target % n
     for n in range(remaining_steps):
         moveable = do_cycle(moveable, immovable)
 
-    max_y = max(p[1] for p in moveable | immovable)
+    max_y = max(p[1] for p in immovable)
     total = 0
     for rock in moveable:
         total += max_y - rock[1] + 1
