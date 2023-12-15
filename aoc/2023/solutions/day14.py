@@ -133,7 +133,6 @@ def part_2(data: Data):
     total = 0
     for rock in moveable:
         total += max_y - rock[1] + 1
-
     return total
 
 
