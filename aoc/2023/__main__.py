@@ -2,7 +2,7 @@ import sys
 import time
 from typing import TextIO
 
-from solutions.solution import Solutions
+from solution import Solutions
 
 
 def format_duration(duration: float) -> str:
@@ -59,13 +59,17 @@ def draw_table(solutions: list[Solutions], out: TextIO):
         )
     )
 
+    total_time = 0
+
     for solution in solutions:
         start = time.time()
         p1 = solution.part_1()
         p2 = solution.part_2()
         p1_symbol = "✅" if solution.part_1_solved else "❌"
         p2_symbol = "✅" if solution.part_2_solved else "❌"
-        duration = format_duration(time.time() - start)
+
+        duration = time.time() - start
+        total_time += duration
 
         out.write(
             "║ {} ║ {} ║ {} ║ {} ║ {} ║ {} ║\n".format(
@@ -74,18 +78,38 @@ def draw_table(solutions: list[Solutions], out: TextIO):
                 p1_symbol,
                 str(p2).rjust(max_part2_length),
                 p2_symbol,
-                str(duration).rjust(max_time_length),
+                format_duration(duration).rjust(max_time_length),
             )
         )
         out.flush()
 
     out.write(
-        "╚{}╩{}╩{}╩{}╩{}╩{}╝\n".format(
+        "╚{}╩{}╩{}╩{}╩{}╬{}╣\n".format(
             "═" * (max_name_length + 2),
             "═" * (max_part1_length + 2),
             "═" * 4,
             "═" * (max_part2_length + 2),
             "═" * 4,
+            "═" * (max_time_length + 2),
+        )
+    )
+    out.write(
+        " {} {} {} {} {}║ {} ║\n".format(
+            " " * (max_name_length + 2),
+            " " * (max_part1_length + 2),
+            " " * 4,
+            " " * (max_part2_length + 2),
+            " " * 4,
+            format_duration(total_time).rjust(max_time_length),
+        )
+    )
+    out.write(
+        " {} {} {} {} {}╚{}╝\n".format(
+            " " * (max_name_length + 2),
+            " " * (max_part1_length + 2),
+            " " * 4,
+            " " * (max_part2_length + 2),
+            " " * 4,
             "═" * (max_time_length + 2),
         )
     )

@@ -56,4 +56,4 @@ class Solutions(Generic[R]):
 
     @property
     def name(self):
-        return f"Day {self.day}"
+        return f"Day {self.day:>2}"
