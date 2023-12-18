@@ -124,7 +124,7 @@ def write_table_to_buffer(out: TextIO):
             daily_mod = getattr(mod, f"day{day}")
             solutions.append(daily_mod.SOLUTION)
         except (ImportError, AttributeError):
-            break
+            continue
 
     draw_table(solutions, out)
 
