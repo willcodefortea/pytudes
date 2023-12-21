@@ -33,8 +33,11 @@ class Solutions(Generic[R]):
             "solutions",
             f"day{self.day}.txt",
         )
-        with open(path, "r", encoding="utf-8") as fin:
-            return fin.read().split("\n")
+        try:
+            with open(path, "r", encoding="utf-8") as fin:
+                return fin.read().split("\n")
+        except:
+            return ""
 
     def part_1(self) -> R:
         if self._part_1_solution is None:

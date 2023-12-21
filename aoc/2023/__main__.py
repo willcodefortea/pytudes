@@ -68,6 +68,14 @@ def draw_table(solutions: list[Solutions], out: TextIO):
         p1_symbol = "✅" if solution.part_1_solved else "❌"
         p2_symbol = "✅" if solution.part_2_solved else "❌"
 
+        if p1 == -1:
+            p1 = ""
+            p1_symbol = "  "
+
+        if p2 == -1:
+            p2 = ""
+            p2_symbol = "  "
+
         duration = time.time() - start
         total_time += duration
 
@@ -124,7 +132,16 @@ def write_table_to_buffer(out: TextIO):
             daily_mod = getattr(mod, f"day{day}")
             solutions.append(daily_mod.SOLUTION)
         except (ImportError, AttributeError):
-            continue
+            solutions.append(
+                Solutions(
+                    day=day,
+                    part_1_answer=0,
+                    part_1=lambda _: -1,
+                    part_2_answer=0,
+                    part_2=lambda _: -1,
+                    parse_data=lambda _: _,
+                )
+            )
 
     draw_table(solutions, out)
 
