@@ -151,7 +151,7 @@ def part_2(data: Data) -> int:
         if conjunction_node in targets:
             first_hi_pulse[node] = -1
 
-    # press the button and track when the feeders send their first LO pulse
+    # press the button and track when the feeders send their first HI pulse
     loop_count = 0
     finished = False
     while not finished:
