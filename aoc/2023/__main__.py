@@ -68,14 +68,6 @@ def draw_table(solutions: list[Solutions], out: TextIO):
         p1_symbol = "✅" if solution.part_1_solved else "❌"
         p2_symbol = "✅" if solution.part_2_solved else "❌"
 
-        if p1 == -1:
-            p1 = ""
-            p1_symbol = "  "
-
-        if p2 == -1:
-            p2 = ""
-            p2_symbol = "  "
-
         duration = time.time() - start
         total_time += duration
 
