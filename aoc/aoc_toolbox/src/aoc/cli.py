@@ -3,6 +3,7 @@ import re
 import shutil
 import sys
 import time
+from importlib import reload, import_module
 from datetime import date
 from pathlib import Path
 from typing import TextIO
@@ -20,18 +21,29 @@ def cli():
 
 @cli.command(help="Run a solution for a given day")
 @click.argument("day", type=int, required=True)
-def run(day: int):
+@click.option("--repeat", is_flag=True)
+def run(day: int, repeat: bool = False):
     sys.path.append(cwd)
     try:
-        mod = __import__(f"day{day:>02}")
+        mod = import_module(f"day{day:>02}")
     except ModuleNotFoundError:
         click.echo(
             f"No solution found in current directory, run: aoc init {day}", err=True
         )
         click.get_current_context().exit(1)
-    solution: Solution = mod.SOLUTION
-    click.echo(f"Part 1: {solution.part_1()}")
-    click.echo(f"Part 2: {solution.part_2()}")
+    while True:
+        solution: Solution = mod.SOLUTION
+        start = time.time()
+        click.echo(f"Part 1: {solution.part_1()}")
+        click.echo(f"Part 2: {solution.part_2()}\n")
+        click.echo(f"Time taken: {time.time() - start:.2}s")
+
+        if not repeat:
+            break
+
+        time.sleep(1)
+        reload(mod)
+        click.clear()
 
 
 @cli.command(help="Creates a template for a solutions")
