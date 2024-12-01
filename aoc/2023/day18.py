@@ -1,6 +1,6 @@
 import re
 
-from solution import Solutions
+from aoc import Solution
 
 Data = list[tuple[str, int]]
 
@@ -55,7 +55,7 @@ def part_2(data: Data):
     return 0
 
 
-SOLUTION = Solutions(
+SOLUTION = Solution(
     day=18,
     part_1=part_1,
     part_2=part_2,

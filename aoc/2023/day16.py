@@ -1,6 +1,6 @@
 from typing import Callable
 
-from solution import Solutions
+from aoc import Solution
 
 Point = tuple[int, int]
 Heading = complex
@@ -99,7 +99,7 @@ def part_2(data: Data):
     )
 
 
-SOLUTION = Solutions(
+SOLUTION = Solution(
     day=16,
     part_1=part_1,
     part_2=part_2,

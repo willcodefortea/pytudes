@@ -1,4 +1,4 @@
-from solution import Solutions
+from aoc import Solution
 
 test_input = """0 3 6 9 12 15
 1 3 6 10 15 21
@@ -66,7 +66,7 @@ class Tests:
         assert part_2(parse_input(test_input)) == 2
 
 
-SOLUTION = Solutions(
+SOLUTION = Solution(
     day=9,
     part_1=part_1,
     part_2=part_2,

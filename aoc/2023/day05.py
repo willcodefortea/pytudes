@@ -1,7 +1,7 @@
 import re
 from typing import Callable
 
-from solution import Solutions
+from aoc import Solution
 
 test_data = """seeds: 79 14 55 13
 
@@ -137,7 +137,7 @@ def part_2(data):
     return all_lowest[-1]
 
 
-SOLUTION = Solutions(
+SOLUTION = Solution(
     day=5,
     part_1=part_1,
     part_2=part_2,

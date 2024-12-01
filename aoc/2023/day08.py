@@ -2,7 +2,7 @@ import math
 import re
 from itertools import cycle
 
-from solution import Solutions
+from aoc import Solution
 
 test_input = """LLR
 
@@ -105,7 +105,7 @@ def test_everything():
     assert part2(test_input) == 6
 
 
-SOLUTION = Solutions(
+SOLUTION = Solution(
     day=8,
     part_1=part_1,
     part_2=part_2,

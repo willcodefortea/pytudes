@@ -1,6 +1,6 @@
 from typing import Callable
 
-from solution import Solutions
+from aoc import Solution
 
 Data = list[str]
 
@@ -38,7 +38,7 @@ def part_2(data: Data):
     return sum(calibration_value(line, digits_only_replace_words) for line in data)
 
 
-SOLUTION = Solutions(
+SOLUTION = Solution(
     day=1,
     part_1=part_1,
     part_2=part_2,

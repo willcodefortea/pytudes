@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from solution import Solutions
+from aoc import Solution
 
 
 def get_neighbours(x: int, y: int, grid: list[str]):
@@ -86,7 +86,7 @@ def part_2(graphs: list[Graph]):
     return total
 
 
-SOLUTION = Solutions(
+SOLUTION = Solution(
     day=3,
     part_1=part_1,
     part_2=part_2,

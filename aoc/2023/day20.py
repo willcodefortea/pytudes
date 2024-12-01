@@ -2,7 +2,7 @@ import math
 from collections import defaultdict
 from typing import Callable, Generator
 
-from solution import Solutions
+from aoc import Solution
 
 HI = True
 LO = False
@@ -166,7 +166,7 @@ def part_2(data: Data) -> int:
     return math.lcm(*first_hi_pulse.values())
 
 
-SOLUTION = Solutions(
+SOLUTION = Solution(
     day=20,
     part_1=part_1,
     part_2=part_2,

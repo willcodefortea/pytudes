@@ -1,7 +1,7 @@
 import re
 from functools import partial
 
-from solution import Solutions
+from aoc import Solution
 
 
 def parse_input(lines: list[str], winning_length: int):
@@ -67,7 +67,7 @@ def part_2_dynamic(all_cards):
     return sum(processing_vals)
 
 
-SOLUTION = Solutions(
+SOLUTION = Solution(
     day=4,
     part_1=part_1,
     part_2=part_2_dynamic,

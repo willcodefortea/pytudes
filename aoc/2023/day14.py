@@ -1,6 +1,6 @@
 from typing import Callable, Iterable, Sequence
 
-from solution import Solutions
+from aoc import Solution
 
 Point = tuple[int, int]
 Data = tuple[set[Point], set[Point]]
@@ -136,7 +136,7 @@ def part_2(data: Data):
     return total
 
 
-SOLUTION = Solutions(
+SOLUTION = Solution(
     day=14,
     part_1=part_1,
     part_2=part_2,

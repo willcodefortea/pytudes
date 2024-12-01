@@ -1,4 +1,4 @@
-from solution import Solutions
+from aoc import Solution
 
 Data = tuple[dict, tuple[int, int]]
 
@@ -51,7 +51,7 @@ def part_2(data: Data):
     return 0
 
 
-SOLUTION = Solutions(
+SOLUTION = Solution(
     day=21,
     part_1=part_1,
     part_2=part_2,

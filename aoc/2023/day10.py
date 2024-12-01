@@ -1,4 +1,4 @@
-from solution import Solutions
+from aoc import Solution
 
 test_data_loop = """.....
 .S-7.
@@ -203,7 +203,7 @@ L7JLJL-JLJLJL--JLJ.L""".split(
         assert part2(parse_input(loop)) == 10
 
 
-SOLUTION = Solutions(
+SOLUTION = Solution(
     day=10,
     part_1=part_1,
     part_2=part_2,

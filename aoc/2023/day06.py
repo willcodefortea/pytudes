@@ -1,7 +1,7 @@
 import re
 from math import ceil, floor
 
-from solution import Solutions
+from aoc import Solution
 
 
 def parse_input(lines: list[str]):
@@ -44,7 +44,7 @@ def part_2(races):
     return num_winning_options(time, distance)
 
 
-SOLUTION = Solutions(
+SOLUTION = Solution(
     day=6,
     part_1=part_1,
     part_2=part_2,

@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from solution import Solutions
+from aoc import Solution
 
 Games = tuple[int, list[dict[str, int]]]
 
@@ -67,7 +67,7 @@ def part_2(games: list[Games]) -> int:
     return total
 
 
-SOLUTION = Solutions(
+SOLUTION = Solution(
     day=2,
     part_1=part_1,
     part_2=part_2,

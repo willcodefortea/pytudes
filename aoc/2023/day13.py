@@ -1,6 +1,6 @@
 from typing import Sequence
 
-from solution import Solutions
+from aoc import Solution
 
 Data = list[list[str]]
 
@@ -61,7 +61,7 @@ def part_2(data: Data):
     return sum(fix_smudge(field) for field in data)
 
 
-SOLUTION = Solutions(
+SOLUTION = Solution(
     day=13,
     part_1=part_1,
     part_2=part_2,

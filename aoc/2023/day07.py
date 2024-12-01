@@ -1,7 +1,7 @@
 from collections import Counter
 from functools import cmp_to_key, partial
 
-from solution import Solutions
+from aoc import Solution
 
 test_data = """32T3K 765
 T55J5 684
@@ -133,7 +133,7 @@ def test_everything():
     assert part_2(test_hands) == 5905
 
 
-SOLUTION = Solutions(
+SOLUTION = Solution(
     day=7,
     part_1=part_1,
     part_2=part_2,

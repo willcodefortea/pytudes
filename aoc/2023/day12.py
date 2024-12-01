@@ -1,7 +1,7 @@
 from functools import cache
 from typing import Sequence
 
-from solution import Solutions
+from aoc import Solution
 
 Data = list[tuple[str, tuple[int, ...]]]
 
@@ -76,7 +76,7 @@ def part_2(data: Data):
     return part_1(unfolded)
 
 
-SOLUTION = Solutions(
+SOLUTION = Solution(
     day=12,
     part_1=part_1,
     part_2=part_2,

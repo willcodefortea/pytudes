@@ -3,7 +3,7 @@ import re
 from functools import partial
 from typing import Callable
 
-from solution import Solutions
+from aoc import Solution
 
 State = dict[str, int]
 Rules = dict[str, Callable[[State], bool]]
@@ -78,7 +78,7 @@ def part_2(data: Data):
     return 0
 
 
-SOLUTION = Solutions(
+SOLUTION = Solution(
     day=19,
     part_1=part_1,
     part_2=part_2,

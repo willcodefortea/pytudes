@@ -12,11 +12,11 @@ class Solution(Generic[R]):
         part_1: Callable[[T], R],
         part_2: Callable[[T], R],
         parse_data: Callable[[list[str]], T],
-        day: int | None = None,
+        day: int,
         part_1_answer: R | None = None,
         part_2_answer: R | None = None,
     ):
-        self._day = day or 1
+        self._day = day
 
         self._parse_data = parse_data
         self._data = parse_data(self._read_input())

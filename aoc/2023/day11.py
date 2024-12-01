@@ -1,6 +1,6 @@
 from functools import partial
 
-from solution import Solutions
+from aoc import Solution
 
 test_input = """...#......
 .......#..
@@ -109,7 +109,7 @@ class Tests:
         assert part_2(parse_input(test_input), 100) == 8410
 
 
-SOLUTION = Solutions(
+SOLUTION = Solution(
     day=11,
     part_1=part_1,
     part_2=partial(part_2, growth_factor=1_000_000),

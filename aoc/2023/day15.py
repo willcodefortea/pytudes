@@ -1,6 +1,6 @@
 import re
 
-from solution import Solutions
+from aoc import Solution
 
 Data = list[str]
 
@@ -58,7 +58,7 @@ def part_2(data: Data):
     return focusing_power
 
 
-SOLUTION = Solutions(
+SOLUTION = Solution(
     day=15,
     part_1=part_1,
     part_2=part_2,
