@@ -64,7 +64,7 @@ def init(day: int, force: bool = False):
     data_path.touch()
 
 
-@cli.command()
+@cli.command(help="Output results into a table")
 @click.option("--all", type=bool, is_flag=True)
 @click.option(
     "--year",
@@ -79,7 +79,7 @@ def table(all: bool, year: int):
     _write_table_to_buffer(sys.stdout, year, 25 if all else len(solution_files))
 
 
-@cli.command()
+@cli.command(help="...it creates a readme.")
 @click.option(
     "--year",
     type=int,
