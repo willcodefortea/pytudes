@@ -79,9 +79,9 @@ def create_readme(year: int):
     sys.path.append(cwd)
     with open("README.md", "w", encoding="utf-8") as fout:
         fout.write(f"# Advent of Code {year} \n\n")
-        fout.write("All files are designed to be ran with my AoC toolbox CLI.")
+        fout.write("All files are designed to be ran with my AoC toolbox CLI.\n\n")
 
-        fout.write("```\n")
+        fout.write("```txt\n")
         _write_table_to_buffer(fout, year)
         fout.write("```\n")
 
