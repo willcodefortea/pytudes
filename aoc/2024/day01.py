@@ -1,6 +1,7 @@
-from solution import Solutions
 from collections import Counter
 import re
+
+import aoc
 
 Data = tuple[list[int], list[int]]
 
@@ -26,7 +27,7 @@ def part_2(data: Data):
     return sum(l * right_counts.get(l, 0) for l in set(left))
 
 
-SOLUTION = Solutions(
+SOLUTION = aoc.Solution(
     day=1,
     part_1=part_1,
     part_2=part_2,
@@ -34,8 +35,3 @@ SOLUTION = Solutions(
     part_1_answer=1222801,
     part_2_answer=22545250,
 )
-
-
-if __name__ == "__main__":
-    print(SOLUTION.part_1())
-    print(SOLUTION.part_2())

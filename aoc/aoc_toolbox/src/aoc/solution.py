@@ -5,20 +5,21 @@ T = TypeVar("T")
 R = TypeVar("R")
 
 
-class Solutions(Generic[R]):
+class Solution(Generic[R]):
     def __init__(
         self,
         *,
-        day: int,
         part_1: Callable[[T], R],
         part_2: Callable[[T], R],
         parse_data: Callable[[list[str]], T],
+        day: int | None = None,
         part_1_answer: R | None = None,
         part_2_answer: R | None = None,
     ):
-        self.day = day
+        self._day = day or 1
 
-        self.data = parse_data(self._read_input())
+        self._parse_data = parse_data
+        self._data = parse_data(self._read_input())
         self._part_1 = part_1
         self._part_2 = part_2
         self._part_1_answer = part_1_answer
@@ -28,16 +29,18 @@ class Solutions(Generic[R]):
         self._part_2_solution = None
 
     def _read_input(self):
-        path = os.path.join(
-            os.path.dirname(__file__),
-            "solutions",
-            f"day{self.day:02}.txt",
-        )
+        path = f"day{self._day:>02}.txt"
         try:
             with open(path, "r", encoding="utf-8") as fin:
                 return fin.read().split("\n")
-        except:
-            return ""
+        except FileNotFoundError:
+            return []
+
+    @property
+    def data(self):
+        if not self._data:
+            self._data = self._parse_data(self._read_input())
+        return self._data
 
     def part_1(self) -> R:
         if self._part_1_solution is None:
@@ -59,4 +62,4 @@ class Solutions(Generic[R]):
 
     @property
     def name(self):
-        return f"Day {self.day:>2}"
+        return f"Day {self._day:>2}"
