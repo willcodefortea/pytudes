@@ -1,16 +1,15 @@
-import os
 import fileinput
+import os
 import re
 import shutil
 import sys
 import time
-from importlib import reload, import_module
+import traceback
 from datetime import date
+from importlib import import_module, reload
 from pathlib import Path
 from types import FunctionType
 from typing import TextIO
-import sys
-import traceback
 
 import click
 from aoc.solution import Solution

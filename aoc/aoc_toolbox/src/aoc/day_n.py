@@ -1,4 +1,5 @@
 from typing import Sequence
+
 import aoc
 
 Data = Sequence[str]
