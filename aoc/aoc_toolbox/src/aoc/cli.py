@@ -1,4 +1,5 @@
 import os
+import fileinput
 import re
 import shutil
 import sys
@@ -96,6 +97,11 @@ def init(day: int, force: bool = False):
         click.get_current_context().exit(1)
 
     shutil.copy(template_path, solution_path)
+    with fileinput.input(solution_path, inplace=True) as fin:
+        for line in fin:
+            new_line = line.replace("day=1", f"day={day}")
+            print(new_line, end="")
+
     data_path.touch()
 
 

@@ -1,9 +1,10 @@
+from typing import Sequence
 import aoc
 
-Data = list[str]
+Data = Sequence[str]
 
 
-def parse_input(lines: list[str]) -> Data:
+def parse_input(lines: Sequence[str]) -> Data:
     return lines
 
 
@@ -14,6 +15,7 @@ def part_2(data: Data): ...
 
 
 SOLUTION = aoc.Solution(
+    day=1,
     part_1=part_1,
     part_2=part_2,
     parse_data=parse_input,
