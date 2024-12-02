@@ -6,7 +6,10 @@ import time
 from importlib import reload, import_module
 from datetime import date
 from pathlib import Path
+from types import FunctionType
 from typing import TextIO
+import sys
+import traceback
 
 import click
 from aoc.solution import Solution
@@ -31,11 +34,43 @@ def run(day: int, repeat: bool = False):
             f"No solution found in current directory, run: aoc init {day}", err=True
         )
         click.get_current_context().exit(1)
+
     while True:
         solution: Solution = mod.SOLUTION
         start = time.time()
-        click.echo(f"Part 1: {solution.part_1()}")
-        click.echo(f"Part 2: {solution.part_2()}\n")
+
+        tests = [
+            t
+            for t in dir(mod)
+            if isinstance(getattr(mod, t), FunctionType) and t.startswith("test_")
+        ]
+        try:
+            click.echo(f"Part 1: {solution.part_1()}")
+            click.echo(f"Part 2: {solution.part_2()}\n")
+
+            if tests:
+                click.echo("TESTS:")
+            for test in tests:
+                message = "✅"
+                try:
+                    getattr(mod, test)()
+                except AssertionError as e:
+                    _, _, tb = sys.exc_info()
+                    tb_info = traceback.extract_tb(tb)
+                    _, line, _, text = tb_info[-1]
+                    assertion_message = str(e)
+                    if not assertion_message:
+                        assertion_message = text
+                    message = f"❌ {assertion_message}"
+
+                click.echo(f"  {test} ... {message}")
+            else:
+                click.echo("")
+
+        except Exception as e:
+            click.echo("Exception thrown while running solution")
+            click.echo(e)
+
         click.echo(f"Time taken: {time.time() - start:.2}s")
 
         if not repeat:
