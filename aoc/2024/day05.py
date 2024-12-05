@@ -13,13 +13,13 @@ from typing import NamedTuple, Sequence
 
 import aoc
 
-Rules = dict[int, list[int]]
+Rules = dict[int, set[int]]
 Update = list[int]
 Data = NamedTuple("Data", (("rules", Rules), ("updates", list[Update])))
 
 
 def parse_input(lines: Sequence[str]) -> Data:
-    rules: dict[int, list[int]] = defaultdict(list)
+    rules: dict[int, set[int]] = defaultdict(set)
     updates: list[list[int]] = []
 
     lines_itr = iter(lines)
@@ -27,12 +27,10 @@ def parse_input(lines: Sequence[str]) -> Data:
         if not rule:
             break
         left, right = rule.split("|")
-        rules[int(left)].append(int(right))
+        rules[int(left)].add(int(right))
 
     for update in lines_itr:
         nums = re.findall(r"\d+", update)
-        if not nums:
-            break
         updates.append([int(n) for n in nums])
 
     return Data(rules=rules, updates=updates)
@@ -57,14 +55,13 @@ def _is_valid_order(rules: Rules, update: Update):
     printed = set()
 
     for num in update:
+        printed.add(num)
+
         if num not in rules:
-            printed.add(num)
             continue
 
-        if set(rules[num]) & printed:
+        if rules[num] & printed:
             return False
-
-        printed.add(num)
 
     return True
 
