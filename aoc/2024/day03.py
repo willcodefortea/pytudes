@@ -1,5 +1,5 @@
-from typing import Literal, Sequence
 import re
+from typing import Literal, Sequence
 
 import aoc
 

@@ -10,6 +10,7 @@ and revealuate" proved to be far easier to follow.
 
 import re
 from typing import Sequence
+
 import aoc
 
 Data = list[list[int]]
