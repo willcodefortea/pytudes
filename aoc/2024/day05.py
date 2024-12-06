@@ -30,6 +30,8 @@ def parse_input(lines: Sequence[str]) -> Data:
         rules[int(left)].add(int(right))
 
     for update in lines_itr:
+        if not update:
+            continue
         nums = re.findall(r"\d+", update)
         updates.append([int(n) for n in nums])
 
