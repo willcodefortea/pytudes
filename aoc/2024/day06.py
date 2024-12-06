@@ -1,4 +1,17 @@
-from typing import NamedTuple, Sequence
+"""
+Day 6: Guard Gallivant
+
+I quite enjoy using complex numbers to represent position and heading,
+it makes performing rotations really simple.
+
+Part 2 currently runs quite slowly as there's
+lots of duplicate work being done, and there's probably a more efficient
+way of knowing when you'll hit an obstacle.
+
+Might come back to this one!
+"""
+
+from typing import Sequence
 
 import aoc
 
