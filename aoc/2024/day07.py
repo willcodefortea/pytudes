@@ -5,10 +5,30 @@ Enjoyed this one, a quick depth-first-search to explore the
 different combinations was easily extendable for part 2.
 
 Python's operator module comes in handy for things like this.
+
+** UPDATE **
+
+After doing some research I saw that this problem can be thought
+of in terms of an optimised sub-problem. As we need all operations
+from left-to-right to be correct, we can reduce our search space
+by going backwards.
+
+
+Say we had this example path:
+
+X = a + b * c
+
+This can only be the case if X is divisible by c. If it isn't,
+then it can't possibly by a solution, so we can discard the path.
+
+This approach takes the runtime from 1.4s to 0.03. 
+
+Nice.
 """
 
 import operator
 import re
+from math import log10
 from typing import Callable, Sequence
 
 import aoc
@@ -23,16 +43,16 @@ def parse_input(lines: Sequence[str]) -> Data:
         if not line:
             continue
         nums = re.findall(r"\d+", line)
-        results.append([int(n) for n in nums])
+        results.append(list(map(int, nums)))
     return results
 
 
 def part_1(data: Data):
-    return _sum_valid(data, [operator.add, operator.mul])
+    return _sum_valid(data, [operator.sub, operator.truediv])
 
 
 def part_2(data: Data):
-    return _sum_valid(data, [operator.add, operator.mul, _concat])
+    return _sum_valid(data, [operator.sub, operator.truediv, _unconcat])
 
 
 def _sum_valid(data: Data, operations: list[Op]):
@@ -45,21 +65,25 @@ def _sum_valid(data: Data, operations: list[Op]):
 
 def _can_compute(target: int, nums: list[int], operations: list[Op]) -> bool:
 
-    def dfs(carry: int, remaining: list[int]):
-        if len(remaining) == 0 or carry > target:
-            return carry == target
+    def optimised_sub_problem(carry: int | float, remaining: list[int]):
+        if carry % 1 or not remaining:
+            return False
 
-        for op in operations:
-            new_carry = op(carry, remaining[0])
-            if dfs(new_carry, remaining[1:]):
-                return True
-        return False
+        carry = int(carry)
+        *head, tail = remaining
 
-    return dfs(carry=nums[0], remaining=nums[1:])
+        return any(
+            [
+                carry == tail and len(head) == 0,
+                *[optimised_sub_problem(op(carry, tail), head) for op in operations],
+            ]
+        )
+
+    return optimised_sub_problem(carry=target, remaining=nums)
 
 
-def _concat(a: int, b: int):
-    return int(str(a) + str(b))
+def _unconcat(a: int, b: int) -> float:
+    return (a - b) / (10 ** int(log10(b) + 1))
 
 
 TEST_INPUT = """190: 10 19
