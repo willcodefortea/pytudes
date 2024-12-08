@@ -12,11 +12,26 @@ from typing import NamedTuple, Sequence
 import aoc
 
 Point = NamedTuple("Point", (("x", int), ("y", int)))
-Data = Sequence[str]
+Antennas = dict[str, list[Point]]
+Limits = NamedTuple("Limits", (("x", int), ("y", int)))
+Data = NamedTuple("Data", (("antennas", Antennas), ("limits", Limits)))
 
 
 def parse_input(lines: Sequence[str]) -> Data:
-    return [line for line in lines if line]
+    antennas: Antennas = defaultdict(list)
+
+    for y, line in enumerate(lines):
+        for x, char in enumerate(line):
+            if char != ".":
+                antennas[char].append(Point(x, y))
+
+    return Data(
+        antennas=antennas,
+        limits=Limits(
+            x=len(lines[0]),
+            y=len([l for l in lines if l]),
+        ),
+    )
 
 
 def part_1(data: Data):
@@ -38,16 +53,9 @@ SOLUTION = aoc.Solution(
 
 
 def _find_antinodes(data: Data, all_points: bool = False) -> set[Point]:
-    antennas: dict[str, list[Point]] = defaultdict(list)
-
-    for y, line in enumerate(data):
-        for x, char in enumerate(line):
-            if char != ".":
-                antennas[char].append(Point(x, y))
-
     antinodes: set[Point] = set()
 
-    for locations in antennas.values():
+    for locations in data.antennas.values():
         if len(locations) == 1:
             continue
 
@@ -64,7 +72,9 @@ def _find_antinodes(data: Data, all_points: bool = False) -> set[Point]:
                     n = root
                     while True:
                         n = Point(n.x + dir * x_diff, n.y + dir * y_diff)
-                        within_bounds = 0 <= n.x < len(data[0]) and 0 <= n.y < len(data)
+                        within_bounds = (
+                            0 <= n.x < data.limits.x and 0 <= n.y < data.limits.y
+                        )
                         if not within_bounds:
                             break
 
