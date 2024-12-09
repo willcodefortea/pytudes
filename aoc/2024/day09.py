@@ -20,7 +20,15 @@ The empty space is then swapped with the file.
 etc.
 
 The second part can't be solved like this, as we need to act on
-entire blocks, not just single cells. 
+entire blocks, not just single cells. My initial solution took
+around 6s, and that involved lots of insertions and deletions.
+
+Instead we see that we're never adding any blocks we care about,
+any newly created space from files moving will never be used by
+another file (as that would mean they move right), so we can just
+focus on shrinking the free space a file moves into.
+
+This took the solution from 5/6s to 1.1s to run.
 """
 
 from typing import Sequence
@@ -70,49 +78,38 @@ def part_1(data: Data):
 def part_2(data: Data):
     disk = []
     file_id = 0
+    free_list = []
+    file_list = []
+    offset = 0
 
     for i, val in enumerate(data):
         is_free_space = i % 2 == 1
 
         if is_free_space:
-            disk.append((None, val))
+            free_list.append((offset, val))
+            char = None
         else:
-            disk.append((file_id, val))
+            file_list.append((offset, file_id, val))
+            char = file_id
             file_id += 1
 
-    processed = set()
-    for _ in range(len(data) // 2):
-        data_offset, (file_id, file_size) = next(
-            (i, b)
-            for i, b in enumerate(disk[::-1])
-            if b[0] is not None and b[0] not in processed
-        )
-        data_idx = len(disk) - data_offset - 1
-        empty_blocks = ((i, b) for i, b in enumerate(disk) if b[0] is None)
+        offset += val
+        for _ in range(val):
+            disk.append(char)
 
-        for idx, (_, empty_size) in empty_blocks:
-            if idx > data_idx:
-                continue
-            remaining = empty_size - file_size
-            if remaining == 0:
-                disk[idx] = (file_id, file_size)
-                disk[data_idx] = (None, empty_size)
+    for file_start, file_id, file_size in reversed(file_list):
+        for space_idx, (space_start, space_size) in enumerate(free_list):
+            if space_size >= file_size:
+                for i in range(file_size):
+                    disk[space_start + i] = file_id
+                    disk[file_start + i] = None
+                free_list[space_idx] = (space_start + file_size, space_size - file_size)
                 break
-            elif remaining > 0:
-                disk[idx] = (file_id, file_size)
-                disk[data_idx] = (None, file_size)
-                disk.insert(idx + 1, (None, remaining))
-                break
-
-        processed.add(file_id)
 
     checksum = 0
-    offset = 0
-    for file_id, size in disk:
+    for i, file_id in enumerate(disk):
         if file_id:
-            for i in range(size):
-                checksum += (offset + i) * file_id
-        offset += size
+            checksum += i * file_id
     return checksum
 
 

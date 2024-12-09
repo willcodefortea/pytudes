@@ -72,11 +72,9 @@ def _can_compute(target: int, nums: list[int], operations: list[Op]) -> bool:
         carry = int(carry)
         *head, tail = remaining
 
-        return any(
-            [
-                carry == tail and len(head) == 0,
-                *[optimised_sub_problem(op(carry, tail), head) for op in operations],
-            ]
+        is_complete = carry == tail and len(head) == 0
+        return is_complete or any(
+            optimised_sub_problem(op(carry, tail), head) for op in operations
         )
 
     return optimised_sub_problem(carry=target, remaining=nums)
