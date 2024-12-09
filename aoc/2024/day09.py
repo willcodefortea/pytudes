@@ -28,7 +28,11 @@ any newly created space from files moving will never be used by
 another file (as that would mean they move right), so we can just
 focus on shrinking the free space a file moves into.
 
-This took the solution from 5/6s to 1.1s to run.
+This took the solution from 5/6s to 1.1s to run. Deleting empty
+spaces cut that to 0.8s. \o/
+
+There's probably a way to do even better by considering blocks,
+rather than individual cells, but that'll do for now.
 """
 
 from typing import Sequence
@@ -104,6 +108,13 @@ def part_2(data: Data):
                     disk[space_start + i] = file_id
                     disk[file_start + i] = None
                 free_list[space_idx] = (space_start + file_size, space_size - file_size)
+                if space_size == file_size:
+                    del free_list[space_idx]
+                else:
+                    free_list[space_idx] = (
+                        space_start + file_size,
+                        space_size - file_size,
+                    )
                 break
 
     checksum = 0
