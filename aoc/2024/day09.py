@@ -99,7 +99,7 @@ def part_2(data: Data):
 
     for file_start, file_id, file_size in reversed(file_list):
         for space_idx, (space_start, space_size) in enumerate(free_list):
-            if space_size >= file_size:
+            if space_size >= file_size and space_start < file_start:
                 for i in range(file_size):
                     disk[space_start + i] = file_id
                     disk[file_start + i] = None
