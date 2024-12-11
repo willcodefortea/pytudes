@@ -1,32 +1,42 @@
 """
 Day 6: Guard Gallivant
 
-I quite enjoy using complex numbers to represent position and heading,
-it makes performing rotations really simple.
+I quite enjoy using complex numbers to represent position and heading, it makes
+performing rotations really simple.
 
-Part 2 currently runs quite slowly as there's
-lots of duplicate work being done, and there's probably a more efficient
-way of knowing when you'll hit an obstacle.
+Part 2 currently runs quite slowly as there's lots of duplicate work being done,
+and there's probably a more efficient way of knowing when you'll hit an
+obstacle.
 
 Might come back to this one!
+
+UPDATE
+
+Saved a few seconds by using a dict instead of a list of lists and indexing
+positions using a complex so there's no type conversions.
+
+Sure there's a faster way of walking / storing the paths, but I can't see one
+right now.
 """
 
 from typing import Sequence
 
 import aoc
 
-Grid = list[list[str]]
+Grid = dict[complex, str]
 Data = tuple[Grid, complex]
 
 
 def parse_input(lines: Sequence[str]) -> Data:
-    grid = [list(line) for line in lines if line]
-
     start = None
-    for y, row in enumerate(grid):
-        for x, cell in enumerate(row):
-            if cell == "^":
-                start = complex(x, y)
+    grid: Grid = {}
+    for y, line in enumerate(lines):
+        for x, char in enumerate(line):
+            pos = complex(x, y)
+            grid[pos] = char
+
+            if char == "^":
+                start = pos
 
     assert start
     return grid, start
@@ -44,15 +54,14 @@ def part_2(data: Data):
 
     # now we have the path, try adding an obstacle at each point
     # other the first
-    possible_obstructions = set([p for p, _ in current_route]) - set([start])
+    possible_obstructions = set([p for p, _ in current_route if p != start])
     loops = 0
 
     for point in possible_obstructions:
-        ox, oy = int(point.real), int(point.imag)
-        grid[oy][ox] = "#"
+        grid[point] = "#"
         _, looped = _explore_path(grid, start)
         loops += int(looped)
-        grid[oy][ox] = "."
+        grid[point] = "."
 
     return loops
 
@@ -71,19 +80,18 @@ def _explore_path(data: Grid, guard_position: complex):
     heading = -1j
     visited = set([(guard_position, heading)])
     looped = False
+
     while True:
         next_position = guard_position + heading
-        nx = int(next_position.real)
-        ny = int(next_position.imag)
-        within_bounds = 0 <= nx < len(data[0]) and 0 <= ny < len(data)
 
-        if not within_bounds:
+        try:
+            if data[next_position] == "#":
+                # rotate right
+                heading *= 1j
+                continue
+        except KeyError:
+            # out of bounds
             break
-
-        if data[ny][nx] == "#":
-            # rotate right
-            heading *= 1j
-            continue
 
         if (next_position, heading) in visited:
             looped = True
