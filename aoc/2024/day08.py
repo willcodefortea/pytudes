@@ -1,9 +1,9 @@
 """
 Day 8: Resonant Collinearity
 
-Nothing too difficult in today's one, a little drawing
-in excalidraw to make sure I was getting the points correct
-and helped with TDD meant this was pretty smooth! :)
+Nothing too difficult in today's one, a little drawing in excalidraw to make
+sure I was getting the points correct and helped with TDD meant this was pretty
+smooth! :)
 """
 
 from collections import defaultdict

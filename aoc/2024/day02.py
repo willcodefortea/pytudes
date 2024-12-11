@@ -1,11 +1,10 @@
 """
 Day 2: Red-Nosed Reports
 
-Not super happy with my soution here, it's quite messsy. I
-explored using generators and advancing one to represent the
-skip in part 2, but that was far more difficult to reason about
-AND didn't cover all cases. The simple "just remove every index
-and revealuate" proved to be far easier to follow.
+Not super happy with my soution here, it's quite messsy. I explored using
+generators and advancing one to represent the skip in part 2, but that was far
+more difficult to reason about AND didn't cover all cases. The simple "just
+remove every index and revealuate" proved to be far easier to follow.
 """
 
 import re

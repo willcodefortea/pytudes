@@ -1,9 +1,8 @@
 """
 Day 5: Print Queue
 
-This one was pretty quick. As we are always summing the middle number
-the sorting direction is irrelevant, making the second stage slightly
-less fiddly.
+This one was pretty quick. As we are always summing the middle number the
+sorting direction is irrelevant, making the second stage slightly less fiddly.
 """
 
 import re

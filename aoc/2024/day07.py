@@ -1,25 +1,24 @@
 """
 Day 7: Bridge Repair
 
-Enjoyed this one, a quick depth-first-search to explore the
-different combinations was easily extendable for part 2.
+Enjoyed this one, a quick depth-first-search to explore the different
+combinations was easily extendable for part 2.
 
 Python's operator module comes in handy for things like this.
 
 ** UPDATE **
 
-After doing some research I saw that this problem can be thought
-of in terms of an optimised sub-problem. As we need all operations
-from left-to-right to be correct, we can reduce our search space
-by going backwards.
+After doing some research I saw that this problem can be thought of in terms of
+an optimised sub-problem. As we need all operations from left-to-right to be
+correct, we can reduce our search space by going backwards.
 
 
 Say we had this example path:
 
 X = a + b * c
 
-This can only be the case if X is divisible by c. If it isn't,
-then it can't possibly by a solution, so we can discard the path.
+This can only be the case if X is divisible by c. If it isn't, then it can't
+possibly by a solution, so we can discard the path.
 
 This approach takes the runtime from 1.4s to 0.03. 
 

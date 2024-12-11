@@ -1,11 +1,10 @@
 """
 Day 4: Ceres Search
 
-Not super happy with the first part of this! Python's negative
-indexing messed me up when searching diagnoals. I explored 
-pulling out each diagonal in a smiliar way to the verticals,
-and there's no real need to do so, given the size of the data 
-set.
+Not super happy with the first part of this! Python's negative indexing messed
+me up when searching diagnoals. I explored pulling out each diagonal in a
+smiliar way to the verticals, and there's no real need to do so, given the size
+of the data set.
 """
 
 import re

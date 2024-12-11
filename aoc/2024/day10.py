@@ -1,12 +1,12 @@
 """
 Day 10: Hoof It
 
-I never learn to read the question! Stuck on part 1 for a
-while because I wasn't looking at distinct peaks.
+I never learn to read the question! Stuck on part
+1 for a while because I wasn't looking at distinct peaks.
 
-I thought I might need to make use of caching the DFS but
-it turned out to be fast enough. Modifying the result for
-part 2 was pretty straightforward, which is always a treat!
+I thought I might need to make use of caching the DFS but it turned out to be
+fast enough. Modifying the result for part 2 was pretty straightforward, which
+is always a treat!
 """
 
 from typing import DefaultDict, NamedTuple, Sequence

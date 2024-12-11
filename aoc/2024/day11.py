@@ -1,22 +1,19 @@
 """
 Day 11: Plutonian Pebbles
 
-I went a very different route initially, using a deque
-to store the stones and tracking them all, rotating the
-deque so always working at the head.
+I went a very different route initially, using a deque to store the stones and
+tracking them all, rotating the deque so always working at the head.
 
-This was fine for part 1 but as the number of stones grows
-exponentially, part 2 quickly becomes incomputable. I tried
-finding the coefficients for the growth, but it was not
-static, so needed another approach.
+This was fine for part 1 but as the number of stones grows exponentially, part 2
+quickly becomes incomputable. I tried finding the coefficients for the growth,
+but it was not static, so needed another approach.
 
-As each stone is independent, we don't actually need to 
-keep track of the whole list. All we care about is for any
-given stone, how many times will it split in N steps?
+As each stone is independent, we don't actually need to keep track of the whole
+list. All we care about is for any given stone, how many times will it split in
+N steps?
 
-Then all that's needed is some memoization via functools'
-cache decorator and voila, no duplicate work and a speedy
-answer!
+Then all that's needed is some memoization via functools' cache decorator and
+voila, no duplicate work and a speedy answer!
 """
 
 import re

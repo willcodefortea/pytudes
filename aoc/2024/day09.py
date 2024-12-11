@@ -3,10 +3,9 @@ Day 9: Disk Fragmenter
 
 This one took me a good 10 minutes just to understand the question!
 
-For the first part, I did a two-cursor approach, one going forward
-and one going backwards. The idea being the first would keep track
-of the free space, and the one from the end would track the file
-being worked on.
+For the first part, I did a two-cursor approach, one going forward and one going
+backwards. The idea being the first would keep track of the free space, and the
+one from the end would track the file being worked on.
 
 The empty space is then swapped with the file.
 
@@ -19,20 +18,20 @@ The empty space is then swapped with the file.
 
 etc.
 
-The second part can't be solved like this, as we need to act on
-entire blocks, not just single cells. My initial solution took
-around 6s, and that involved lots of insertions and deletions.
+The second part can't be solved like this, as we need to act on entire blocks,
+not just single cells. My initial solution took around 6s, and that involved
+lots of insertions and deletions.
 
-Instead we see that we're never adding any blocks we care about,
-any newly created space from files moving will never be used by
-another file (as that would mean they move right), so we can just
-focus on shrinking the free space a file moves into.
+Instead we see that we're never adding any blocks we care about, any newly
+created space from files moving will never be used by another file (as that
+would mean they move right), so we can just focus on shrinking the free space a
+file moves into.
 
-This took the solution from 5/6s to 1.1s to run. Deleting empty
-spaces cut that to 0.8s. \o/
+This took the solution from 5/6s to 1.1s to run. Deleting empty spaces cut that
+to 0.8s. \o/
 
-There's probably a way to do even better by considering blocks,
-rather than individual cells, but that'll do for now.
+There's probably a way to do even better by considering blocks, rather than
+individual cells, but that'll do for now.
 """
 
 from typing import Sequence
