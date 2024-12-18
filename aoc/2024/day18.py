@@ -1,6 +1,6 @@
 import re
 import heapq
-from typing import Callable, NamedTuple, Sequence
+from typing import Callable, NamedTuple, Sequence, TypeVar
 
 import aoc
 
@@ -34,40 +34,57 @@ def part_1(data: Data, size: tuple[int, int] = (70, 70)):
 
     start = Point(0, 0)
     winning_path = a_star(start, moves, h_func)
-    return len(winning_path) - 1 if winning_path else -1
+    if not winning_path:
+        return -1
+    return len(winning_path) - 1
 
 
 def part_2(all_bytes: Data, size: tuple[int, int] = (70, 70)):
-    cutoff = 0
-
     neighbours = bounded_neighbours(limits=(size[0] + 1, size[1] + 1))
 
     def h_func(loc: Point):
         return (size[0] - loc.x) + (size[1] - loc.y)
 
-    last_winning_path: list[Point] = []
-    for cutoff in range(len(all_bytes)):
-        data = all_bytes[:cutoff]
-        new_byte = all_bytes[cutoff - 1]
+    indexed_bytes = list(zip(range(len(all_bytes)), all_bytes))
 
-        if last_winning_path and new_byte not in last_winning_path:
-            # no point evaluating, our previous path still wins!
-            continue
+    def take_right(indexed_byte: tuple[int, Point]):
+        index, _ = indexed_byte
 
         def moves(loc: Point):
             return tuple(
-                neighbour for neighbour in neighbours(loc) if neighbour not in data
+                neighbour
+                for neighbour in neighbours(loc)
+                if neighbour not in all_bytes[:index]
             )
 
-        start = Point(0, 0)
-        maybe_path = a_star(start, moves, h_func)
+        maybe_path = a_star(Point(0, 0), moves, h_func)
+        return maybe_path is not None
 
-        if maybe_path is None:
-            # no path to exit, previous point is the winner
-            x, y = all_bytes[cutoff - 1]
-            return f"{x},{y}"
+    pivot_points = list(
+        binary_walk(indexed_bytes, 0, len(all_bytes) - 1, take_right=take_right)
+    )
+    last_good_byte = next(
+        byte for (_, byte), valid_path in pivot_points[::-1] if valid_path
+    )
+    return f"{last_good_byte.x},{last_good_byte.y}"
 
-        last_winning_path = maybe_path
+
+T = TypeVar("T")
+
+
+def binary_walk(items: list[T], low: int, high: int, take_right: Callable[[T], bool]):
+    if low > high:
+        return
+
+    pivot = (high + low) // 2
+
+    should_go_right = take_right(items[pivot])
+    yield items[pivot], should_go_right
+
+    if should_go_right:
+        yield from binary_walk(items, pivot + 1, high, take_right)
+    else:
+        yield from binary_walk(items, low, pivot - 1, take_right)
 
 
 def a_star(
