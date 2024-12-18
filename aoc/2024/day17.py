@@ -126,7 +126,7 @@ def _run_program(registers: Registers, program: Program) -> Generator[int, None,
                 registers["B"] = registers["B"] ^ operand
             case 2:
                 registers["B"] = value % 8
-            case 3:  # jmp
+            case 3:
                 if registers["A"] != 0:
                     instruction_idx = operand
                     continue
@@ -155,8 +155,8 @@ SOLUTION = aoc.Solution(
     part_1=part_1,
     part_2=part_2,
     parse_data=parse_input,
-    part_1_answer=-1,
-    part_2_answer=-1,
+    part_1_answer="6,0,6,3,0,2,3,1,6",
+    part_2_answer=236539226447469,
 )
 
 
