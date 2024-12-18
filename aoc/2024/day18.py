@@ -1,3 +1,18 @@
+"""
+Day 18: RAM Run
+
+This one was fun! Shortest path between two points is a classic call for and A*
+search.
+
+The second part howver, will finish in around 8s if we attempt to brute force
+and skip ones that wouldn't change the solution (i.e. we only saerch for a new
+answer if we've added something along the winning path). But as we know that at
+some point the solution doesn't exist we can search for the breaking point
+using a binary search.
+
+This takes us from O(N) to O(ln(N)), or 8s to .8s
+"""
+
 import re
 import heapq
 from typing import Callable, NamedTuple, Sequence, TypeVar
@@ -45,11 +60,9 @@ def part_2(all_bytes: Data, size: tuple[int, int] = (70, 70)):
     def h_func(loc: Point):
         return (size[0] - loc.x) + (size[1] - loc.y)
 
-    indexed_bytes = list(zip(range(len(all_bytes)), all_bytes))
+    indexed_bytes = list(range(len(all_bytes)))
 
-    def take_right(indexed_byte: tuple[int, Point]):
-        index, _ = indexed_byte
-
+    def take_right(index: int):
         def moves(loc: Point):
             return tuple(
                 neighbour
@@ -57,14 +70,14 @@ def part_2(all_bytes: Data, size: tuple[int, int] = (70, 70)):
                 if neighbour not in all_bytes[:index]
             )
 
-        maybe_path = a_star(Point(0, 0), moves, h_func)
-        return maybe_path is not None
+        shortest_path = a_star(Point(0, 0), moves, h_func)
+        return shortest_path is not None
 
     pivot_points = list(
         binary_walk(indexed_bytes, 0, len(all_bytes) - 1, take_right=take_right)
     )
     last_good_byte = next(
-        byte for (_, byte), valid_path in pivot_points[::-1] if valid_path
+        all_bytes[idx] for idx, valid_path in pivot_points[::-1] if valid_path
     )
     return f"{last_good_byte.x},{last_good_byte.y}"
 
