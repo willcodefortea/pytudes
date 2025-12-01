@@ -1,5 +1,4 @@
 from typing import Sequence
-from collections import deque
 
 import aoc
 
@@ -18,34 +17,36 @@ def parse_input(lines: Sequence[str]) -> Data:
 
 
 def part_1(data: Data):
-    dial = deque(range(100))
-    dial.rotate(50)
     total = 0
+    position = 50
 
     for goes_right, amount in data:
-        if not goes_right:
-            amount = amount * -1
+        mul = 1 if goes_right else -1
+        new_position = position + amount * mul
 
-        dial.rotate(amount)
-        if dial[0] == 0:
-            total += 1
+        # clamp position, i.e. -13 becomes 87
+        position = new_position % 100
+        # and then where did we end up
+        total += position == 0
+
     return total
 
 
 def part_2(data: Data):
-    dial = deque(range(100))
-    dial.rotate(50)
     total = 0
+    position = 50
 
     for goes_right, amount in data:
-        dir = 1
-        if not goes_right:
-            dir = -1
+        mul = 1 if goes_right else -1
+        new_position = position + amount * mul
 
-        for _ in range(amount):
-            dial.rotate(dir)
-            if dial[0] == 0:
-                total += 1
+        # how many times are we fully rotating the dial?
+        complete_rotations = abs(new_position) // 100
+        total += complete_rotations
+
+        # did it cross zero or land at zero?
+        total += position > 0 and new_position <= 0
+        position = new_position % 100
 
     return total
 
